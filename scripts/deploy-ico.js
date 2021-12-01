@@ -3,8 +3,11 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
+const hre = require("ethers");
 
+const tRate = hre.utils.formatUnits("2170000000000000000",18);
+const convertRate = parseInt(tRate);
 async function latestTime() {
   const block = await ethers.provider.getBlock("latest");
   return block.timestamp;
@@ -49,7 +52,7 @@ async function main(){
   console.log("Owner:",owner);
 
   const KeeyTokenCrowdsale = await ethers.getContractFactory("KeeyTokenCrowdsale");
-  const rate = 2170000000000000; // 0.00217 eth per token
+  const rate = convertRate; // 2,17 ethpertoken(10000usd/token)
   const latestBlockTime = await latestTime();
   const openingTime = latestBlockTime + duration.minutes(1);
   const closingTime = openingTime + duration.weeks(1); //1 week
